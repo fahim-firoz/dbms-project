@@ -19,6 +19,7 @@ function BookSlotForm() {
     "sae",
     "gdsc",
   ];
+
   const halls = ["apj", "pta", "jubilee", "uhde", "csijewdew"];
 
   const clubElements = clubs.map((data) => {
@@ -141,12 +142,20 @@ function BookSlotForm() {
         </div>
         <div className="choose-time">
           <label>Choose the time</label>
-          <input
-            type="time"
-            onChange={handleChange}
-            value={formData.time}
-            name="time"
-          />
+          <select onChange={handleChange} name="time" value={formData.time}>
+            <option value="" disabled selected>
+              Choose an option
+            </option>
+            <option value="9-12" key="9-12">
+              9-12
+            </option>
+            <option value="1-4" key="1-4">
+              1-4
+            </option>
+            <option value="5-8" key="5-8">
+              5-8
+            </option>
+          </select>
         </div>
       </div>
       <div>

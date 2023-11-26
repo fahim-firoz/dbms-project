@@ -357,8 +357,8 @@ body {
   justify-content: space-around;
   gap: 38px;
 }
-.choose-time > input {
-  width: 100%;
+.choose-time > select {
+  width: 95%;
   border-radius: 5px;
   border: none;
   background-color: rgb(163, 162, 162);
