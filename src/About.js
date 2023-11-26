@@ -3,9 +3,6 @@ import React from "react";
 function About() {
   return (
     <div className="about-us-container">
-      <div>
-        <img className="about-us-image" src="./images/about-us1.png" />
-      </div>
       <div className="about-us-desc">
         <h1>About us</h1>
         <p>

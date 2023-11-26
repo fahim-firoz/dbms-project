@@ -31,13 +31,12 @@ function App() {
       {!isAuthenticated ? (
         <div className="login-container">
           <div>
-            <img className="login-image" src="./images/login-image.png" />
-          </div>
-          <div className="login-section">
-            <div>
+            <img
+              className="login-image"
+              src="./images/background-image10.jpg"
+            />
+            <div className="login-section">
               <h1 className="login-title">Welcome!</h1>
-            </div>
-            <div className="login-button-div">
               <button
                 onClick={() => loginWithRedirect()}
                 className="login-button"
