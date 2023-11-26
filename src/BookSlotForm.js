@@ -41,9 +41,16 @@ function BookSlotForm() {
   const [formData, setFormData] = React.useState({
     club: "",
     hall: "",
-    date: date.toISOString().split("T")[0], // Format the date as YYYY-MM-DD
-    time: `${date.getHours()}:${date.getMinutes()}`,
+    date: "",
+    time: "",
   });
+
+  const defaultFormData = {
+    club: "",
+    hall: "",
+    date: "",
+    time: "",
+  };
 
   function handleChange(event) {
     setFormData((prevState) => {
@@ -53,32 +60,50 @@ function BookSlotForm() {
       };
     });
   }
+  const [bookSuccess, setBookSuccess] = React.useState(null);
 
   async function submitData() {
-    try {
-      // Format date and time
-      const formattedDate = new Date(formData.date).toISOString().split("T")[0];
-      const formattedTime = `${formData.time}:00`;
+    const missingFields = [];
+    if (formData.club.trim() === "") {
+      missingFields.push("Club");
+    }
+    if (formData.hall.trim() === "") {
+      missingFields.push("Hall");
+    }
+    if (formData.date.trim() === "") {
+      missingFields.push("Date");
+    }
+    if (formData.time.trim() === "") {
+      missingFields.push("Time");
+    }
 
-      // Insert data into the 'booking' table
-      const { data, error } = await supabase.from("booking").upsert([
-        {
-          book_id: 100, // Assuming hall_id is numeric
-          booking_date: "2023-11-28",
-          club: "iste",
-          hall: "apj",
-          time: "12:00:00",
-        },
-      ]);
-      console.log(data);
+    if (missingFields.length > 0) {
+      setBookSuccess(null);
+      const missingFieldsString = missingFields.join(", ");
+      alert(`Please fill in the following fields: ${missingFieldsString}`);
+      return;
+    }
+    try {
+      // Make an API request to insert data into the 'booking' table
+      const { data, error } = await supabase.from("BOOKING").insert({
+        club: formData.club,
+        hall: formData.hall,
+        booking_date: formData.date,
+        time: formData.time,
+      });
+
+      console.log(error);
 
       if (error) {
+        setBookSuccess(false);
         console.error("Error inserting data:", error);
       } else {
+        setBookSuccess(true);
         console.log("Data inserted successfully:", data);
+        setFormData(defaultFormData);
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error inserting data:", error.message);
     }
   }
 
@@ -88,12 +113,18 @@ function BookSlotForm() {
         <div className="choose-club">
           <label>Choose the club</label>
           <select onChange={handleChange} name="club" value={formData.club}>
+            <option value="" disabled selected>
+              Choose an option
+            </option>
             {clubElements}
           </select>
         </div>
         <div className="choose-hall">
           <label>Choose the venue</label>
           <select onChange={handleChange} name="hall" value={formData.hall}>
+            <option value="" disabled selected>
+              Choose an option
+            </option>
             {hallElements}
           </select>
         </div>
@@ -104,6 +135,8 @@ function BookSlotForm() {
             onChange={handleChange}
             value={formData.date}
             name="date"
+            placeholder="Select a date"
+            style={{ color: formData.date ? "black" : "gray" }}
           />
         </div>
         <div className="choose-time">
@@ -117,6 +150,9 @@ function BookSlotForm() {
         </div>
       </div>
       <div>
+        {bookSuccess !== null && (
+          <p>{bookSuccess ? "Booked successfully" : "Unsuccessful"}</p>
+        )}
         <button onClick={submitData} className="bookslot-button">
           Book slot
         </button>
