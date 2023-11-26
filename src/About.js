@@ -6,7 +6,7 @@ function About() {
       <div className="about-us-desc">
         <h1>About us</h1>
         <p>
-          This is found by sriram and fahim
+          This is developed for project purpose only , not for commercial releases
         </p>
         <div>
           <a className="mail-link" href="mailto:123@gmail.com">

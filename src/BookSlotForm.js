@@ -59,19 +59,20 @@ function BookSlotForm() {
       // Format date and time
       const formattedDate = new Date(formData.date).toISOString().split("T")[0];
       const formattedTime = `${formData.time}:00`;
-
+  
       // Insert data into the 'booking' table
-      const { data, error } = await supabase.from("booking").upsert([
+      const { data, error } = await supabase.from("BOOKING").insert([
         {
-          book_id: 100, // Assuming hall_id is numeric
-          booking_date: "2023-11-28",
-          club: "iste",
-          hall: "apj",
-          time: "12:00:00",
+          club: formData.club,
+          hall: formData.hall,
+         // book_id: 100, // Assuming hall_id is numeric
+          booking_date: formattedDate, 
+          time: formattedTime,
         },
       ]);
+    
       console.log(data);
-
+  
       if (error) {
         console.error("Error inserting data:", error);
       } else {
@@ -81,6 +82,7 @@ function BookSlotForm() {
       console.error("Error:", error);
     }
   }
+  
 
   return (
     <div className="bookslot-second-section">
