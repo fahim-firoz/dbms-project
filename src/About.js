@@ -6,10 +6,7 @@ function About() {
       <div className="about-us-desc">
         <h1>About us</h1>
         <p>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consectetur
-          dolorem labore dolore ratione? Quibusdam culpa nisi laboriosam? Quasi
-          dolores, consequatur expedita neque alias hic praesentium sed iusto
-          dignissimos ab corporis?
+          This is found by sriram and fahim
         </p>
         <div>
           <a className="mail-link" href="mailto:123@gmail.com">
