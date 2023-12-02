@@ -1,13 +1,14 @@
 import React from "react";
-import axios from "axios";
 import { createClient } from "@supabase/supabase-js";
+import { useNavigate } from "react-router-dom";
 
-const supabase = createClient(
-  "https://pexwzisgdtjnigphofua.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBleHd6aXNnZHRqbmlncGhvZnVhIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTk5Njk2MTMsImV4cCI6MjAxNTU0NTYxM30.nSgV0UKrFpLsEM_zFQr8NrCl9sdjNgeflqBqp8vcw1w"
-);
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
+const supabaseApi = process.env.REACT_APP_SUPABASE_API;
 
+const supabase = createClient(supabaseUrl, supabaseApi);
 function BookSlotForm() {
+  const navigate = useNavigate();
+
   const clubs = [
     "iste",
     "iedc",
@@ -37,10 +38,9 @@ function BookSlotForm() {
     );
   });
 
-  const date = new Date();
-
   const [formData, setFormData] = React.useState({
     club: "",
+    eventName: "",
     hall: "",
     date: "",
     time: "",
@@ -48,6 +48,7 @@ function BookSlotForm() {
 
   const defaultFormData = {
     club: "",
+    eventName: "",
     hall: "",
     date: "",
     time: "",
@@ -67,6 +68,9 @@ function BookSlotForm() {
     const missingFields = [];
     if (formData.club.trim() === "") {
       missingFields.push("Club");
+    }
+    if (formData.eventName.trim() === "") {
+      missingFields.push("Event name");
     }
     if (formData.hall.trim() === "") {
       missingFields.push("Hall");
@@ -88,6 +92,7 @@ function BookSlotForm() {
       // Make an API request to insert data into the 'booking' table
       const { data, error } = await supabase.from("BOOKING").insert({
         club: formData.club,
+        event: formData.eventName,
         hall: formData.hall,
         booking_date: formData.date,
         time: formData.time,
@@ -102,11 +107,13 @@ function BookSlotForm() {
         setBookSuccess(true);
         console.log("Data inserted successfully:", data);
         setFormData(defaultFormData);
+        navigate("./Events");
       }
     } catch (error) {
       console.error("Error inserting data:", error.message);
     }
   }
+  console.log(formData);
 
   return (
     <div className="bookslot-second-section">
@@ -119,6 +126,15 @@ function BookSlotForm() {
             </option>
             {clubElements}
           </select>
+        </div>
+        <div className="choose-event">
+          <label>Event name</label>
+          <input
+            type="text"
+            placeholder="Enter the event"
+            name="eventName"
+            onChange={handleChange}
+          />
         </div>
         <div className="choose-hall">
           <label>Choose the venue</label>
@@ -137,7 +153,6 @@ function BookSlotForm() {
             value={formData.date}
             name="date"
             placeholder="Select a date"
-            style={{ color: formData.date ? "black" : "gray" }}
           />
         </div>
         <div className="choose-time">
@@ -158,14 +173,13 @@ function BookSlotForm() {
           </select>
         </div>
       </div>
-      <div>
-        {bookSuccess !== null && (
-          <p>{bookSuccess ? "Booked successfully" : "Unsuccessful"}</p>
-        )}
-        <button onClick={submitData} className="bookslot-button">
-          Book slot
-        </button>
+      <div className="print-success">
+        {bookSuccess !== null && <p>{bookSuccess ? "" : "Slot unavailable"}</p>}
       </div>
+
+      <button onClick={submitData} className="bookslot-button">
+        Confirm slot
+      </button>
     </div>
   );
 }

@@ -14,7 +14,7 @@ export default function Header() {
           <NavLink
             to="/"
             style={{
-              color: "red",
+              color: "white",
               textDecoration: "none",
             }}
           >
@@ -23,10 +23,23 @@ export default function Header() {
         </li>
         <li>
           <NavLink
+            to="/events"
+            style={({ isActive }) => {
+              return {
+                color: isActive ? "blue" : "white",
+                textDecoration: "none",
+              };
+            }}
+          >
+            Events
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
             to="/about"
             style={({ isActive }) => {
               return {
-                color: isActive ? "blue" : "red",
+                color: isActive ? "blue" : "white",
                 textDecoration: "none",
               };
             }}
@@ -34,12 +47,13 @@ export default function Header() {
             About
           </NavLink>
         </li>
+
         <li>
           <NavLink
             to="/clubs"
             style={({ isActive }) => {
               return {
-                color: isActive ? "blue" : "red",
+                color: isActive ? "blue" : "white",
                 textDecoration: "none",
               };
             }}

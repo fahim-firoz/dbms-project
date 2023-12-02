@@ -26,6 +26,28 @@ function About() {
           </a>
         </div>
       </div>
+      <div className="contact">
+        <h2>Contact</h2>
+      </div>
+      <div className="about-us-bottom-section">
+        <div>
+          <h3>COMPANY</h3>
+          <p>Our team</p>
+          <p>More</p>
+        </div>
+        <div className="vertical-bar"></div>
+        <div>
+          <h3>CONTACT</h3>
+          <p>Help and support</p>
+          <p>Partner with us</p>
+        </div>
+        <div className="vertical-bar"></div>
+        <div>
+          <h3>LEGAL</h3>
+          <p>Terms and conditions</p>
+          <p>Privacy policies</p>
+        </div>
+      </div>
     </div>
   );
 }

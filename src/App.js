@@ -11,13 +11,14 @@ import Layout from "./Layout";
 import About from "./About";
 import Clubs from "./Clubs";
 import Bookslot from "./Bookslot";
+import Events from "./Events";
 
 import "./index.css";
 
-const supabase = createClient(
-  "https://pexwzisgdtjnigphofua.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBleHd6aXNnZHRqbmlncGhvZnVhIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTk5Njk2MTMsImV4cCI6MjAxNTU0NTYxM30.nSgV0UKrFpLsEM_zFQr8NrCl9sdjNgeflqBqp8vcw1w"
-);
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
+const supabaseApi = process.env.REACT_APP_SUPABASE_API;
+
+const supabase = createClient(supabaseUrl, supabaseApi);
 
 function App() {
   const { loginWithRedirect, isAuthenticated, user } = useAuth0();
@@ -28,6 +29,7 @@ function App() {
     createRoutesFromElements(
       <Route path="/" element={<Layout />}>
         <Route path="" element={<Bookslot />} />
+        <Route path="events" element={<Events />} />
         <Route path="about" element={<About />} />
         <Route path="clubs" element={<Clubs />} />
       </Route>
@@ -43,7 +45,6 @@ function App() {
 
       if (error) {
         console.error("Error inserting/updating user data:", error.message);
-        // Add user-friendly error handling here if needed
       } else {
         console.log("User data inserted/updated successfully:", data);
       }
@@ -56,24 +57,16 @@ function App() {
   return (
     <div>
       {!isAuthenticated ? (
-        <div className="login-container">
-          <div>
-            <img
-              className="login-image"
-              src="./images/background-image10.jpg"
-            />
-            <div className="login-section">
-              <h1 className="login-title">Welcome!</h1>
-              <button
-                onClick={() => {
-                  loginWithRedirect();
-                }}
-                className="login-button"
-              >
-                Login
-              </button>
-            </div>
-          </div>
+        <div className="login-section">
+          <h1 className="login-title">Welcome!</h1>
+          <button
+            onClick={() => {
+              loginWithRedirect();
+            }}
+            className="login-button"
+          >
+            Login
+          </button>
         </div>
       ) : (
         <RouterProvider router={router} />
