@@ -1,6 +1,13 @@
 body {
   font-family: "Poppins", sans-serif;
-  background-color: #072822;
+  background: -webkit-gradient(
+      linear,
+      left top,
+      left bottom,
+      from(black),
+      to(rgb(26, 62, 65))
+    )
+    fixed;
   color: rgb(255, 255, 255);
   overflow-x: hidden;
 }
@@ -120,28 +127,30 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 90px;
+  gap: 40px;
 }
 
 .login-title {
   font-size: 100px;
   margin: 0;
-  background: -webkit-linear-gradient(rgb(179, 58, 58), #333);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: white;
+  text-align: center;
 }
 
 .login-button {
   border: none;
-  letter-spacing: 2px;
-  font-weight: bold;
-  border-radius: 5px;
-  padding: 10px 50px;
-  font-size: 15px;
+  letter-spacing: 1px;
+  border-radius: 15px;
+  padding: 10px 100px;
+  font-size: 20px;
   cursor: pointer;
-  background-color: rgb(82, 79, 79);
+  background-color: rgb(255, 255, 255);
+  border: 4px solid black;
+  color: rgb(0, 0, 0);
 }
 .login-button:hover {
-  background-color: rgb(255, 255, 255);
+  border: 4px solid rgb(112, 112, 112);
 }
 
 .about-us-container {
@@ -163,7 +172,7 @@ body {
 
 .about-us-desc > h1 {
   font-size: 40px;
-  color: yellow;
+  color: rgb(210, 210, 188);
   font-family: "Poppins", sans-serif;
   margin-bottom: 0;
 }
@@ -206,7 +215,7 @@ body {
 .contact {
   position: absolute;
   width: 300px;
-  height: 300px;
+  height: 290px;
   top: 130px;
   right: 17%;
   border-radius: 27px;
@@ -399,13 +408,56 @@ body {
 }
 
 .print-success {
+  margin: 40px;
+  display: inline-block;
   position: absolute;
-  right: 200px;
-  bottom: 5px;
+  width: 200px;
+  height: 80px;
+  bottom: 50px;
+  right: -150px;
+  background-color: lightyellow;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  color: black;
+  font-family: "Ubuntu-Italic", "Lucida Sans", helvetica, sans;
+}
+
+.print-success::before {
+  content: " ";
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: -8px;
+  right: auto;
+  top: auto;
+  bottom: -40px;
+  border: 1px solid;
+  border-color: transparent transparent transparent #666;
+}
+
+.print-success::after {
+  content: " ";
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: 0px;
+  right: auto;
+  top: auto;
+  bottom: -20px;
+  border: 22px solid;
+  border-color: transparent transparent transparent lightyellow;
+}
+
+.print-success > p {
+  padding: 1em;
+  -webkit-margin-before: 0em;
+  -webkit-margin-after: 0em;
+  font-size: 15px;
 }
 
 .event-section {
-  margin-top: 120px;
+  margin-top: 100px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   padding: 50px;
@@ -434,4 +486,51 @@ body {
   text-align: center;
   margin-top: 200px;
   font-size: 50px;
+}
+
+.booknow-container {
+  width: 700px;
+  height: 400px;
+  top: 269px;
+  left: 135px;
+  border-radius: 31px;
+  background-color: rgba(28, 83, 83, 1);
+  margin: auto;
+  margin-top: 120px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.booknow-container .vertical-bar {
+  width: 2px;
+  height: 100%;
+  background-color: rgb(168, 162, 162);
+}
+
+.booknow-second-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.booknow-second-section > button {
+  padding: 10px 30px;
+  background: rgba(255, 255, 255, 1);
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.booknow-second-section > button:hover {
+  background: rgb(173, 168, 168);
+}
+
+.booknow-first-section {
+  align-self: flex-start;
+  font-size: 30px;
+  line-height: 60px;
+  overflow-wrap: break-word;
+  max-width: 400px;
 }

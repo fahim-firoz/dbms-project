@@ -1,39 +1,59 @@
 import React from "react";
 import { createClient } from "@supabase/supabase-js";
-import { useNavigate } from "react-router-dom";
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseApi = process.env.REACT_APP_SUPABASE_API;
 
 const supabase = createClient(supabaseUrl, supabaseApi);
 function BookSlotForm() {
-  const navigate = useNavigate();
+  const [clubData, setClubData] = React.useState([{}]);
+  React.useEffect(() => {
+    const fetchClubData = async () => {
+      try {
+        const { data, error } = await supabase.from("CLUB").select("*");
 
-  const clubs = [
-    "iste",
-    "iedc",
-    "ieee",
-    "iei",
-    "csi",
-    "acm",
-    "tinkerhub",
-    "sae",
-    "gdsc",
-  ];
+        if (error) {
+          throw error;
+        }
 
-  const halls = ["apj", "pta", "jubilee", "uhde", "csijewdew"];
+        setClubData(data);
+      } catch (error) {
+        console.error("Error fetching data from Supabase:", error.message);
+      }
+    };
 
-  const clubElements = clubs.map((data) => {
+    fetchClubData();
+  }, []);
+  const [hallData, setHallData] = React.useState([{}]);
+  React.useEffect(() => {
+    const fetchHallData = async () => {
+      try {
+        const { data, error } = await supabase.from("HALL").select("*");
+
+        if (error) {
+          throw error;
+        }
+
+        setHallData(data);
+      } catch (error) {
+        console.error("Error fetching data from Supabase:", error.message);
+      }
+    };
+
+    fetchHallData();
+  }, []);
+
+  const clubElements = clubData.map((data) => {
     return (
-      <option key={data} value={data}>
-        {data}
+      <option key={data.club} value={data.club}>
+        {data.club}
       </option>
     );
   });
-  const hallElements = halls.map((data) => {
+  const hallElements = hallData.map((data) => {
     return (
-      <option key={data} value={data}>
-        {data}
+      <option key={data.hall_name} value={data.hall_name}>
+        {data.hall_name}
       </option>
     );
   });
@@ -103,12 +123,15 @@ function BookSlotForm() {
       if (error) {
         setBookSuccess(false);
         console.error("Error inserting data:", error);
+        setFormData(defaultFormData);
       } else {
         setBookSuccess(true);
         console.log("Data inserted successfully:", data);
         setFormData(defaultFormData);
-        navigate("./Events");
       }
+      setTimeout(() => {
+        setBookSuccess(null);
+      }, 3000);
     } catch (error) {
       console.error("Error inserting data:", error.message);
     }
@@ -134,6 +157,7 @@ function BookSlotForm() {
             placeholder="Enter the event"
             name="eventName"
             onChange={handleChange}
+            value={formData.eventName}
           />
         </div>
         <div className="choose-hall">
@@ -173,9 +197,16 @@ function BookSlotForm() {
           </select>
         </div>
       </div>
-      <div className="print-success">
-        {bookSuccess !== null && <p>{bookSuccess ? "" : "Slot unavailable"}</p>}
-      </div>
+
+      {bookSuccess !== null && (
+        <div className="print-success">
+          <p>
+            {bookSuccess
+              ? "Booked successfully! Check the events for confirmation."
+              : "Slot unavailable!"}
+          </p>
+        </div>
+      )}
 
       <button onClick={submitData} className="bookslot-button">
         Confirm slot

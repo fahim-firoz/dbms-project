@@ -7,13 +7,10 @@ export default function Club(props) {
       <div className="club-desc">
         <h1>{props.title}</h1>
         <div className="club-profile">
-          <a
-            href={`https://in.linkedin.com/company/${props.linkedin}`}
-            target="_blank"
-          >
+          <a href={props.linkedin} target="_blank">
             <img className="linkedin-logo" src="./images/linkedin.png" />
           </a>
-          <a href="" target="_blank">
+          <a href={props.instagram} target="_blank">
             <img className="instagram-logo" src="./images/instagram3.png" />
           </a>
         </div>

@@ -12,6 +12,7 @@ import About from "./About";
 import Clubs from "./Clubs";
 import Bookslot from "./Bookslot";
 import Events from "./Events";
+import BookNow from "./BookNow";
 
 import "./index.css";
 
@@ -28,7 +29,8 @@ function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Layout />}>
-        <Route path="" element={<Bookslot />} />
+        <Route path="" element={<BookNow />} />
+        <Route path="bookslot" element={<Bookslot />} />
         <Route path="events" element={<Events />} />
         <Route path="about" element={<About />} />
         <Route path="clubs" element={<Clubs />} />
@@ -36,29 +38,35 @@ function App() {
     )
   );
 
-  React.useEffect(async () => {
-    try {
-      const { data, error } = await supabase.from("USER").upsert({
-        username: user.name,
-        email: user.email,
-      });
+  React.useEffect(() => {
+    const updateUserInDatabase = async () => {
+      try {
+        const { data, error } = await supabase.from("USER").upsert({
+          username: user.name,
+          email: user.email,
+        });
 
-      if (error) {
+        if (error) {
+          console.error("Error inserting/updating user data:", error.message);
+        } else {
+          console.log("User data inserted/updated successfully:", data);
+        }
+      } catch (error) {
         console.error("Error inserting/updating user data:", error.message);
-      } else {
-        console.log("User data inserted/updated successfully:", data);
+        // Add user-friendly error handling here if needed
       }
-    } catch (error) {
-      console.error("Error inserting/updating user data:", error.message);
-      // Add user-friendly error handling here if needed
+    };
+
+    if (user) {
+      updateUserInDatabase();
     }
-  }, []);
+  }, [user]);
 
   return (
     <div>
       {!isAuthenticated ? (
         <div className="login-section">
-          <h1 className="login-title">Welcome!</h1>
+          <h1 className="login-title">Welcome to ClashOfClubs.</h1>
           <button
             onClick={() => {
               loginWithRedirect();
