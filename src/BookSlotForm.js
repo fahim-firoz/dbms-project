@@ -53,7 +53,7 @@ function BookSlotForm() {
   const hallElements = hallData.map((data) => {
     return (
       <option key={data.hall_name} value={data.hall_name}>
-        {data.hall_name}
+        {data.hall_name}, capacity: {data.hall_capacity}
       </option>
     );
   });
