@@ -127,13 +127,14 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 90px;
+  margin-top: 140px;
   gap: 40px;
 }
 
 .login-title {
   font-size: 100px;
   margin: 0;
+  line-height: 100px;
   color: white;
   text-align: center;
 }
